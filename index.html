@@ -717,27 +717,63 @@ function setLoginRole(role, btn) {
   btn.classList.add('active');
 }
 
-function fazerLogin(e) {
+async function fazerLogin(e) {
   e.preventDefault();
-  var userVal = $('#loginUser').value.trim() || 'Usuário';
-  currentUser = userVal;
-  currentRole = currentLoginRole;
-  $('#loginscreen').classList.add('hidden');
-  $('#app').style.display = '';
-  $('#userName').textContent = currentUser;
-  $('#userRole').textContent = 'Perfil: '+ROLE_LABELS[currentRole];
-  $('#userAvatar').textContent = currentUser.charAt(0).toUpperCase();
-  
-  var notices = {
-    manager:'Você está logado como Gerência. Tem controle total e pode ajustar as permissões dos outros perfis.',
-    stock:'Você está logado como Estoque. Pode cadastrar/editar produtos e registrar entradas, conforme liberado pela Gerência.',
-    staff:'Você está logado como Funcionário. Pode registrar saídas e consultar o estoque, conforme liberado pela Gerência.'
-  };
-  $('#roleNotice').textContent = notices[currentRole];
-  
-  pendingPerms = JSON.parse(JSON.stringify(permissions));
-  applyPermissions();
-  go('dashboard');
+
+  var email = $('#loginUser').value.trim();
+  var senha = $('#loginPass').value;
+
+  try {
+    var resultado = await supabaseClient.auth.signInWithPassword({
+      email: email,
+      password: senha
+    });
+
+    if (resultado.error) {
+      alert('Erro ao entrar: ' + resultado.error.message);
+      return;
+    }
+
+    var usuario = resultado.data.user;
+
+    var consulta = await supabaseClient
+      .from('restaurant_members')
+      .select('role')
+      .eq('restaurant_id', RESTAURANT_ID)
+      .eq('user_id', usuario.id)
+      .maybeSingle();
+
+    if (consulta.error || !consulta.data) {
+      await supabaseClient.auth.signOut();
+      alert('Este usuário ainda não está vinculado ao restaurante.');
+      return;
+    }
+
+    currentUser = email;
+    currentRole = consulta.data.role;
+
+    $('#loginscreen').classList.add('hidden');
+    $('#app').style.display = '';
+
+    $('#userName').textContent = currentUser;
+    $('#userRole').textContent = 'Perfil: ' + ROLE_LABELS[currentRole];
+    $('#userAvatar').textContent = currentUser.charAt(0).toUpperCase();
+
+    var notices = {
+      manager: 'Você está logado como Gerência.',
+      stock: 'Você está logado como Estoque.',
+      staff: 'Você está logado como Funcionário.'
+    };
+
+    $('#roleNotice').textContent = notices[currentRole] || '';
+
+    pendingPerms = JSON.parse(JSON.stringify(permissions));
+    applyPermissions();
+    go('dashboard');
+
+  } catch (erro) {
+    alert('Não foi possível conectar ao sistema: ' + erro.message);
+  }
 }
 
 function fazerLogout() {
