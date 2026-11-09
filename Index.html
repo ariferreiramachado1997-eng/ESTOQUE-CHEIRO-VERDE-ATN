@@ -1,0 +1,783 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Estoque Pro | Restaurante</title>
+<style>
+:root{--bg:#f4f6f8;--panel:#fff;--ink:#17212b;--muted:#687582;--line:#e4e9ee;--accent:#176b57;--warn:#fff3d7;--danger:#fde8e7;--shadow:0 5px 20px #17212b0b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font:15px/1.45 system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink)}button,input,select{font:inherit}button{cursor:pointer;border:0;border-radius:10px;padding:10px 14px;background:var(--accent);color:white;font-weight:650}button.secondary{background:#edf1f4;color:#253340}button.small{padding:6px 9px;font-size:13px}button:disabled{opacity:.4;cursor:not-allowed}.app{display:grid;grid-template-columns:240px 1fr;min-height:100vh}.sidebar{background:#152a27;color:white;padding:24px 16px;display:flex;flex-direction:column;gap:24px}.brand{font-size:20px;font-weight:800;letter-spacing:-.5px}.brand span{display:block;font-size:12px;color:#a9c7bd;font-weight:500;letter-spacing:0;margin-top:3px}.nav{display:grid;gap:7px}.nav button{background:transparent;color:#d2e1dc;text-align:left;font-weight:550}.nav button.active,.nav button:hover{background:#2b4841;color:white}.nav button:disabled{opacity:.35;cursor:not-allowed}.sidefoot{margin-top:auto;color:#a9c7bd;font-size:12px}.main{min-width:0;padding:24px clamp(16px,3vw,36px)}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:24px}.eyebrow{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:1.1px;font-weight:700}.top h1{font-size:28px;letter-spacing:-.8px;margin:4px 0}.topright{display:flex;gap:10px;align-items:center}.userbadge{display:flex;align-items:center;gap:8px;background:white;border:1px solid var(--line);border-radius:10px;padding:7px 10px;font-size:13px}.userbadge .avatar{width:28px;height:28px;border-radius:50%;background:var(--accent);color:white;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}.userbadge .uname{font-weight:700}.userbadge .urole{color:var(--muted);font-size:11px}.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:20px}.card,.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}.metriclabel{color:var(--muted);font-size:13px}.metric{font-size:29px;font-weight:800;letter-spacing:-1px;margin:7px 0}.hint{font-size:12px;color:var(--muted)}.layout{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(260px,1fr);gap:16px}.panelhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}.panelhead h2{font-size:17px;margin:0}.filters{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.filters input,.filters select,.field input,.field select{border:1px solid #d7dfe5;background:white;padding:10px 11px;border-radius:9px;min-width:0;width:100%}.filters input{flex:1;min-width:150px}.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;white-space:nowrap}th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);font-size:13px}th{color:var(--muted);font-weight:700;background:#fafbfc}td strong{font-size:13px}.pill{display:inline-block;border-radius:999px;padding:4px 8px;font-size:11px;font-weight:750;background:#e7f4ec;color:#23653d}.pill.warn{background:var(--warn);color:#865c00}.pill.bad{background:var(--danger);color:#a12b27}.list{display:grid;gap:10px}.alert{display:flex;gap:10px;align-items:flex-start;padding:11px;background:#fafbfc;border-radius:10px}.dot{width:9px;height:9px;border-radius:50%;background:#d58c11;margin-top:6px;flex-shrink:0}.dot.red{background:#c63e35}.alert strong{display:block;font-size:13px}.alert small{color:var(--muted)}.section{display:none}.section.active{display:block}.notice{padding:12px 14px;background:#e9f4f0;color:#235747;border-radius:12px;margin-bottom:16px;font-size:13px}.modalback{position:fixed;inset:0;background:#0b1816a6;display:none;align-items:center;justify-content:center;padding:16px;z-index:9999}.modalback.show{display:flex}.modal{background:white;border-radius:16px;padding:22px;width:min(560px,100%);max-height:90vh;overflow:auto}.modal h2{margin:0 0 16px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:grid;gap:5px}.field label{font-size:12px;font-weight:700;color:var(--muted)}.span2{grid-column:span 2}.modalactions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}.empty{color:var(--muted);padding:22px;text-align:center}.chartgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}.chartbox{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}.chartbox h3{font-size:15px;margin:0 0 4px}.chartbox .hint{margin-bottom:12px}.barwrap{display:flex;align-items:center;gap:10px;margin:8px 0}.barlabel{width:110px;font-size:13px;font-weight:600;text-align:right;flex-shrink:0}.bartrack{flex:1;height:22px;background:#f0f3f6;border-radius:6px;overflow:hidden}.barfill{height:100%;border-radius:6px;transition:width .3s}.barfill.accent{background:var(--accent)}.barfill.blue{background:#2f7fb5}.barval{min-width:52px;font-size:13px;font-weight:700;color:var(--muted)}.donutwrap{display:flex;align-items:center;gap:20px;flex-wrap:wrap}.donut{width:130px;height:130px;border-radius:50%;flex-shrink:0;position:relative}.donut-center{position:absolute;inset:18px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-direction:column;font-size:11px;color:var(--muted);font-weight:600;text-align:center}.donut-center strong{font-size:18px;color:var(--ink)}.legend{display:grid;gap:8px;font-size:13px;flex:1;min-width:140px}.legendrow{display:flex;align-items:center;gap:8px}.legdot{width:12px;height:12px;border-radius:3px;flex-shrink:0}.linechart{padding:6px 0}.linechart svg{width:100%;height:150px;display:block}.dest-tag{display:inline-block;background:#eef3f7;color:#3c5568;border-radius:6px;padding:3px 7px;font-size:11px;font-weight:700}
+.loginscreen{position:fixed;inset:0;background:linear-gradient(135deg,#152a27 0%,#1f3d38 100%);display:flex;align-items:center;justify-content:center;padding:16px;z-index:100}.loginscreen.hidden{display:none}.loginbox{background:white;border-radius:20px;padding:32px;width:min(420px,100%);box-shadow:0 20px 60px rgba(0,0,0,.3)}.loginbrand{font-size:26px;font-weight:800;letter-spacing:-1px;margin-bottom:4px;color:var(--ink)}.loginbrand span{display:block;font-size:12px;color:var(--muted);font-weight:500;letter-spacing:0;margin-top:2px}.loginbox h2{font-size:18px;margin:24px 0 16px}.logintabs{display:flex;gap:6px;background:#f0f3f6;border-radius:10px;padding:4px;margin-bottom:18px}.logintabs button{flex:1;background:transparent;color:var(--muted);padding:9px;font-size:13px;border-radius:7px}.logintabs button.active{background:white;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.08)}.loginfoot{text-align:center;font-size:12px;color:var(--muted);margin-top:18px;line-height:1.6}
+.perm-row{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:#fafbfc;border-radius:10px;gap:10px}.perm-row .perm-label{font-size:13px;font-weight:600}.perm-row .perm-desc{font-size:11px;color:var(--muted);margin-top:2px}.switch{position:relative;width:44px;height:24px;flex-shrink:0}.switch input{opacity:0;width:0;height:0}.switch .slider{position:absolute;inset:0;background:#cfd8de;border-radius:24px;transition:.2s;cursor:pointer}.switch .slider:before{content:"";position:absolute;width:18px;height:18px;left:3px;top:3px;background:white;border-radius:50%;transition:.2s}.switch input:checked+.slider{background:var(--accent)}.switch input:checked+.slider:before{transform:translateX(20px)}.perm-group{margin-bottom:18px}.perm-group h3{font-size:14px;margin:0 0 8px;display:flex;align-items:center;gap:8px}.roletabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}.roletabs button{background:#edf1f4;color:#253340;font-size:13px;padding:8px 14px}.roletabs button.active{background:var(--accent);color:white}
+@media(max-width:1000px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.layout{grid-template-columns:1fr}.chartgrid{grid-template-columns:1fr}}
+@media(max-width:650px){.app{grid-template-columns:1fr}.sidebar{padding:12px;gap:10px}.brand{font-size:17px}.brand span,.sidefoot{display:none}.nav{display:flex;overflow:auto;padding-bottom:4px}.nav button{white-space:nowrap;padding:9px 11px}.main{padding:16px 12px}.top{align-items:flex-start;flex-direction:column}.top h1{font-size:24px}.topright{width:100%;flex-wrap:wrap}.cards{gap:8px}.card{padding:13px}.metric{font-size:24px}.panel{padding:13px}.formgrid{grid-template-columns:1fr}.span2{grid-column:span 1}.barlabel{width:80px;font-size:11px}.chartgrid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="loginscreen" id="loginscreen">
+  <div class="loginbox">
+    <div class="loginbrand">Estoque Pro <span>GESTÃO DE ESTOQUE · RESTAURANTE</span></div>
+    <h2>Acesse sua conta</h2>
+    <div class="logintabs" role="tablist">
+      <button class="active" onclick="setLoginRole('manager', this)" type="button">Gerência</button>
+      <button onclick="setLoginRole('stock', this)" type="button">Estoque</button>
+      <button onclick="setLoginRole('staff', this)" type="button">Funcionário</button>
+    </div>
+    <form id="loginForm" onsubmit="fazerLogin(event)">
+      <div class="formgrid" style="grid-template-columns:1fr">
+        <div class="field"><label for="loginUser">Usuário</label><input id="loginUser" name="user" type="text" required placeholder="Digite seu nome de usuário"></div>
+        <div class="field"><label for="loginPass">Senha</label><input id="loginPass" name="pass" type="password" required placeholder="Digite sua senha"></div>
+      </div>
+      <div style="margin-top:16px"><button type="submit" style="width:100%">Entrar</button></div>
+    </form>
+    <div class="loginfoot"><strong>Demonstração:</strong> qualquer usuário e senha funcionam.<br>O perfil selecionado acima define o que você pode acessar.</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app" id="app" style="display:none">
+<aside class="sidebar">
+  <div class="brand">Estoque Pro <span>GESTÃO DE ESTOQUE · RESTAURANTE</span></div>
+  <nav class="nav" aria-label="Navegação" id="mainNav">
+    <button onclick="go('dashboard')" data-page="dashboard">▦ Visão geral</button>
+    <button onclick="go('products')" data-page="products">▤ Produtos</button>
+    <button onclick="go('movement')" data-page="movement">▤ Entradas</button>
+    <button onclick="go('outputs')" data-page="outputs">↗ Saídas</button>
+    <button onclick="go('reports')" data-page="reports">▥ Relatórios</button>
+    <button onclick="go('permissions')" data-page="permissions" id="navPermissions">⚙ Permissões</button>
+  </nav>
+  <div class="sidefoot">Protótipo · dados salvos neste navegador</div>
+</aside>
+<main class="main">
+  <header class="top">
+    <div><div class="eyebrow">Operação / Restaurante</div><h1 id="pageTitle">Visão geral</h1></div>
+    <div class="topright">
+      <div class="userbadge"><div class="avatar" id="userAvatar">G</div><div><div class="uname" id="userName">Gerência</div><div class="urole" id="userRole">Perfil: Gerência</div></div></div>
+      <button class="secondary" onclick="fazerLogout()">Sair</button>
+    </div>
+  </header>
+  <div class="notice" id="roleNotice"></div>
+
+  <section id="dashboard" class="section active">
+    <div class="cards">
+      <div class="card"><div class="metriclabel">Produtos cadastrados</div><div class="metric" id="metricProducts">0</div><div class="hint">SKUs ativos</div></div>
+      <div class="card"><div class="metriclabel">Itens com estoque baixo</div><div class="metric" id="metricLow">0</div><div class="hint">No limite mínimo ou abaixo</div></div>
+      <div class="card"><div class="metriclabel">Validade em até 7 dias</div><div class="metric" id="metricExpiry">0</div><div class="hint">Lotes cadastrados</div></div>
+      <div class="card"><div class="metriclabel">Valor estimado em estoque</div><div class="metric" id="metricValue">R$ 0,00</div><div class="hint">Saldo × custo unitário</div></div>
+    </div>
+    <div class="chartgrid">
+      <div class="chartbox"><h3>Saídas por destino (30 dias)</h3><div class="hint">Para onde o estoque está indo</div><div id="outputsByDestChart"></div></div>
+      <div class="chartbox"><h3>Top produtos por saída (30 dias)</h3><div class="hint">Volume acumulado de saídas</div><div id="topOutputProductsChart"></div></div>
+    </div>
+    <div class="layout">
+      <div class="panel"><div class="panelhead"><h2>Estoque atual</h2><button class="secondary small" onclick="go('products')">Ver produtos</button></div><div class="filters"><input id="dashSearch" placeholder="Buscar produto, código ou categoria..."></div><div class="tablewrap"><table><thead><tr><th>Produto</th><th>Categoria</th><th>Saldo</th><th>Status</th></tr></thead><tbody id="dashRows"></tbody></table></div></div>
+      <div class="panel"><div class="panelhead"><h2>Atenção necessária</h2><span class="pill warn">Alertas</span></div><div class="list" id="alerts"></div></div>
+    </div>
+  </section>
+
+  <section id="products" class="section">
+    <div class="panel"><div class="panelhead"><div><h2>Cadastro de produtos</h2><div class="hint">Use um código único para cada item (SKU).</div></div><button id="addProduct" onclick="abrirModalProduto()">+ Novo produto</button></div>
+    <div class="filters"><input id="productSearch" placeholder="Buscar por nome, código, fornecedor..."><select id="categoryFilter"><option value="">Todas as categorias</option><option>Secos</option><option>Proteínas</option><option>Hortifruti</option><option>Laticínios</option><option>Congelados</option><option>Bebidas</option><option>Limpeza</option><option>Descartáveis</option><option>Outros</option></select></div>
+    <div class="tablewrap"><table><thead><tr><th>Código</th><th>Produto</th><th>Categoria</th><th>Saldo</th><th>Mínimo</th><th>Unidade</th><th>Custo/un.</th><th>Ações</th></tr></thead><tbody id="productRows"></tbody></table></div></div>
+  </section>
+
+  <section id="movement" class="section">
+    <div class="panel"><div class="panelhead"><div><h2>Entradas de estoque</h2><div class="hint">Registre entradas e ajustes positivos no estoque.</div></div><button id="addMovement" onclick="abrirModalEntrada()">+ Registrar entrada</button></div>
+    <div class="filters"><input id="movementSearch" placeholder="Buscar produto ou responsável..."><select id="movementTypeFilter"><option value="">Todos os tipos</option><option value="Entrada">Entrada</option><option value="Ajuste">Ajuste</option></select></div>
+    <div class="tablewrap"><table><thead><tr><th>Data/hora</th><th>Produto</th><th>Tipo</th><th>Quantidade</th><th>Unidade</th><th>Responsável</th><th>Motivo / referência</th></tr></thead><tbody id="movementRows"></tbody></table></div></div>
+  </section>
+
+  <section id="outputs" class="section">
+    <div class="cards">
+      <div class="card"><div class="metriclabel">Saídas hoje</div><div class="metric" id="outToday">0</div><div class="hint">Volume total (unidades)</div></div>
+      <div class="card"><div class="metriclabel">Saídas nos últimos 7 dias</div><div class="metric" id="out7">0</div><div class="hint">Consumo + perdas</div></div>
+      <div class="card"><div class="metriclabel">Saídas nos últimos 30 dias</div><div class="metric" id="out30">0</div><div class="hint">Consumo + perdas</div></div>
+      <div class="card"><div class="metriclabel">Destino mais ativo (30d)</div><div class="metric" style="font-size:18px;letter-spacing:-.3px" id="outTopDest">—</div><div class="hint">Maior volume de saída</div></div>
+    </div>
+    <div class="chartgrid">
+      <div class="chartbox"><h3>Evolução diária de saídas (14 dias)</h3><div class="hint">Quantidade total de itens que saíram do estoque por dia</div><div class="linechart" id="dailyOutputChart"></div></div>
+      <div class="chartbox"><h3>Distribuição por destino</h3><div class="hint">Proporção das saídas entre os setores</div><div class="donutwrap" id="donutOutputs"></div></div>
+    </div>
+    <div class="panel">
+      <div class="panelhead"><div><h2>Registro de saídas</h2><div class="hint">Registre tudo que está saindo do estoque e para onde está indo.</div></div><button id="addOutput" onclick="abrirModalSaida()">+ Registrar saída</button></div>
+      <div class="filters">
+        <input id="outputSearch" placeholder="Buscar produto, responsável, motivo...">
+        <select id="outputDestFilter"><option value="">Todos os destinos</option></select>
+        <select id="outputTypeFilter"><option value="">Todos os tipos</option><option value="Saída / consumo">Saída / consumo</option><option value="Perda">Perda</option></select>
+        <select id="outputPeriodFilter"><option value="all">Todo o período</option><option value="today">Hoje</option><option value="7">Últimos 7 dias</option><option value="30">Últimos 30 dias</option><option value="90">Últimos 90 dias</option></select>
+      </div>
+      <div class="tablewrap"><table><thead><tr><th>Data/hora</th><th>Produto</th><th>Tipo</th><th>Quantidade</th><th>Unidade</th><th>Destino</th><th>Responsável</th><th>Motivo / referência</th><th>Saldo após</th></tr></thead><tbody id="outputRows"></tbody></table></div>
+    </div>
+  </section>
+
+  <section id="reports" class="section">
+    <div class="panel"><div class="panelhead"><div><h2>Relatórios e exportação</h2><div class="hint">Baixe cópias para conferência e prestação de contas.</div></div></div><div class="list">
+      <div class="alert"><div class="dot"></div><div><strong>Posição atual do estoque</strong><small>Cadastro, saldo, mínimo, unidade, validade e custo.</small><p><button onclick="exportarProdutos()">Exportar produtos CSV</button></p></div></div>
+      <div class="alert"><div class="dot"></div><div><strong>Histórico de entradas</strong><small>Entradas e ajustes positivos registrados.</small><p><button onclick="exportarEntradas()">Exportar entradas CSV</button></p></div></div>
+      <div class="alert"><div class="dot"></div><div><strong>Relatório de saídas por destino</strong><small>Todas as saídas com destino, responsável e saldo após.</small><p><button onclick="exportarSaidas()">Exportar saídas CSV</button></p></div></div>
+      <div class="alert"><div class="dot"></div><div><strong>Backup dos dados</strong><small>Salve um arquivo JSON com produtos e movimentações deste navegador.</small><p><button class="secondary" onclick="exportarBackup()">Baixar backup JSON</button></p></div></div>
+    </div></div>
+  </section>
+
+  <section id="permissions" class="section">
+    <div class="panel">
+      <div class="panelhead"><div><h2>Controle de permissões</h2><div class="hint">A Gerência define o que cada perfil pode fazer no sistema.</div></div></div>
+      <div class="roletabs" id="roleTabs">
+        <button data-roletab="manager" class="active" onclick="mudarAbaPermissao('manager', this)">Gerência</button>
+        <button data-roletab="stock" onclick="mudarAbaPermissao('stock', this)">Estoque</button>
+        <button data-roletab="staff" onclick="mudarAbaPermissao('staff', this)">Funcionário</button>
+      </div>
+      <div id="permissionsContent"></div>
+      <div style="margin-top:16px;display:flex;gap:8px;justify-content:flex-end"><button onclick="salvarPermissoes()">Salvar permissões</button></div>
+    </div>
+  </section>
+</main>
+</div>
+
+<!-- MODAL -->
+<div class="modalback" id="modalback">
+  <div class="modal">
+    <h2 id="modalTitle">Título</h2>
+    <form id="modalForm" onsubmit="salvarModal(event)">
+      <div class="formgrid" id="modalFields"></div>
+      <div class="modalactions">
+        <button type="button" class="secondary" onclick="fecharModal()">Cancelar</button>
+        <button type="submit">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+// ==========================================
+// VARIÁVEIS GLOBAIS E ESTADO
+// ==========================================
+var $ = function(s){ return document.querySelector(s); };
+var money = function(n){ return Number(n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); };
+var today = function(){ return new Date().toISOString().slice(0,10); };
+var DESTINOS = ['Underground','Copa','Limpeza/SG','Cozinha','Açougue','RD','Patiçaria','Lanchonete'];
+var UNIDADES = ['kg','g','L','ml','un','pacote','caixa','fardo','bandeja'];
+var ROLE_LABELS = {manager:'Gerência',stock:'Estoque',staff:'Funcionário'};
+
+var products, movements, permissions;
+try { products = JSON.parse(localStorage.getItem('estoque_products_v1')); } catch(e) { products = null; }
+if (!Array.isArray(products)) {
+  products = [
+    {id:1,sku:'SEC-001',name:'Arroz tipo 1',category:'Secos',qty:45,min:15,unit:'kg',cost:6.8,expiry:'',supplier:'',location:'Prateleira A'},
+    {id:2,sku:'SEC-002',name:'Feijão carioca',category:'Secos',qty:8,min:12,unit:'kg',cost:8.5,expiry:'2026-11-20',supplier:'',location:'Prateleira A'},
+    {id:3,sku:'PRO-001',name:'Peito de frango',category:'Proteínas',qty:18,min:10,unit:'kg',cost:17.9,expiry:'2026-10-30',supplier:'',location:'Freezer 1'},
+    {id:4,sku:'PRO-002',name:'Carne bovina',category:'Proteínas',qty:6,min:8,unit:'kg',cost:34.9,expiry:'2026-10-28',supplier:'',location:'Freezer 1'},
+    {id:5,sku:'HOR-001',name:'Tomate',category:'Hortifruti',qty:4,min:5,unit:'kg',cost:7.2,expiry:'2026-10-27',supplier:'',location:'Câmara fria'}
+  ];
+}
+try { movements = JSON.parse(localStorage.getItem('estoque_moves_v1')); } catch(e) { movements = null; }
+if (!Array.isArray(movements)) movements = [];
+
+var DEFAULT_PERMS = {
+  manager:{view_dashboard:true,view_products:true,view_movement:true,view_outputs:true,view_reports:true,view_permissions:true,create_product:true,edit_product:true,register_movement:true,register_output:true,export_data:true,manage_permissions:true},
+  stock:{view_dashboard:true,view_products:true,view_movement:true,view_outputs:true,view_reports:true,view_permissions:false,create_product:true,edit_product:true,register_movement:true,register_output:true,export_data:true,manage_permissions:false},
+  staff:{view_dashboard:true,view_products:true,view_movement:true,view_outputs:true,view_reports:false,view_permissions:false,create_product:false,edit_product:false,register_movement:false,register_output:true,export_data:false,manage_permissions:false}
+};
+try { permissions = JSON.parse(localStorage.getItem('estoque_perms_v1')); } catch(e) { permissions = null; }
+if (!permissions || typeof permissions !== 'object' || !permissions.manager) {
+  permissions = JSON.parse(JSON.stringify(DEFAULT_PERMS));
+}
+
+var PERM_META = [
+  {key:'view_dashboard',label:'Ver visão geral',desc:'Acessar painel com indicadores'},
+  {key:'view_products',label:'Ver produtos',desc:'Consultar lista e cadastro'},
+  {key:'view_movement',label:'Ver entradas',desc:'Consultar histórico de entradas'},
+  {key:'view_outputs',label:'Ver saídas',desc:'Consultar histórico de saídas'},
+  {key:'view_reports',label:'Ver relatórios',desc:'Acessar página de exportações'},
+  {key:'view_permissions',label:'Ver permissões',desc:'Acessar controle de permissões'},
+  {key:'create_product',label:'Cadastrar produtos',desc:'Adicionar novos produtos'},
+  {key:'edit_product',label:'Editar produtos',desc:'Alterar dados de produtos'},
+  {key:'register_movement',label:'Registrar entradas',desc:'Lançar entradas e ajustes'},
+  {key:'register_output',label:'Registrar saídas',desc:'Lançar saídas com destino'},
+  {key:'export_data',label:'Exportar dados',desc:'Baixar CSV e JSON'},
+  {key:'manage_permissions',label:'Gerenciar permissões',desc:'Definir o que cada perfil faz'}
+];
+
+var currentUser = null, currentRole = null, pendingPerms = null, currentPermTab = 'stock';
+var currentModalSaveCallback = null;
+var currentLoginRole = 'manager';
+
+function persist() {
+  try {
+    localStorage.setItem('estoque_products_v1', JSON.stringify(products));
+    localStorage.setItem('estoque_moves_v1', JSON.stringify(movements));
+    localStorage.setItem('estoque_perms_v1', JSON.stringify(permissions));
+  } catch(e) { console.warn('Erro ao salvar:', e); }
+}
+function escapeHtml(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) {
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+function expiryDays(d) {
+  if (!d) return null;
+  return Math.ceil((new Date(d+'T00:00:00') - new Date(today()+'T00:00:00')) / 86400000);
+}
+function status(p) {
+  if (p.qty <= p.min) return '<span class="pill bad">Estoque baixo</span>';
+  if (expiryDays(p.expiry) !== null && expiryDays(p.expiry) <= 7) return '<span class="pill warn">Validade próxima</span>';
+  return '<span class="pill">Em dia</span>';
+}
+function can(perm) {
+  return !!(currentRole && permissions[currentRole] && permissions[currentRole][perm]);
+}
+
+// ==========================================
+// NAVEGAÇÃO
+// ==========================================
+var PERM_MAP = {dashboard:'view_dashboard',products:'view_products',movement:'view_movement',outputs:'view_outputs',reports:'view_reports',permissions:'view_permissions'};
+var PAGE_TITLES = {dashboard:'Visão geral',products:'Produtos',movement:'Entradas',outputs:'Saídas',reports:'Relatórios',permissions:'Permissões'};
+
+function go(page) {
+  if (!PERM_MAP[page] || !can(PERM_MAP[page])) {
+    alert('Seu perfil não tem permissão para acessar esta página.');
+    return;
+  }
+  var sections = document.querySelectorAll('.section');
+  for (var i=0; i<sections.length; i++) {
+    sections[i].classList.toggle('active', sections[i].id === page);
+  }
+  var navBtns = document.querySelectorAll('[data-page]');
+  for (var j=0; j<navBtns.length; j++) {
+    navBtns[j].classList.toggle('active', navBtns[j].getAttribute('data-page') === page);
+  }
+  $('#pageTitle').textContent = PAGE_TITLES[page];
+  if (page === 'permissions') {
+    pendingPerms = JSON.parse(JSON.stringify(permissions));
+    renderPermissions();
+  }
+  render();
+}
+
+function applyPermissions() {
+  var navBtns = document.querySelectorAll('#mainNav [data-page]');
+  for (var i=0; i<navBtns.length; i++) {
+    var pg = navBtns[i].getAttribute('data-page');
+    navBtns[i].disabled = !can(PERM_MAP[pg]);
+  }
+  $('#navPermissions').style.display = can('view_permissions') ? '' : 'none';
+}
+
+// ==========================================
+// HELPERS DE DADOS E RENDERIZAÇÃO
+// ==========================================
+function isOutput(m) {
+  if (m.type === 'Saída / consumo' || m.type === 'Perda') return true;
+  if (m.type === 'Ajuste' && m.delta !== undefined && m.delta < 0) return true;
+  return false;
+}
+function getOutputMovements() {
+  var out = [];
+  for (var i=0; i<movements.length; i++) if (isOutput(movements[i])) out.push(movements[i]);
+  return out;
+}
+function daysAgo(n) {
+  var d = new Date(); d.setDate(d.getDate()-n); return d.toISOString().slice(0,10);
+}
+function filterByPeriod(list, period) {
+  if (period === 'all') return list;
+  if (period === 'today') return list.filter(function(m){ return m.date.slice(0,10) === today(); });
+  var n = Number(period);
+  var cutoff = new Date(); cutoff.setDate(cutoff.getDate()-n);
+  return list.filter(function(m){ return new Date(m.date) >= cutoff; });
+}
+function outputQty(m) { return m.delta !== undefined ? Math.abs(m.delta) : m.qty; }
+
+function renderBarChart(id, data, colorFn) {
+  var el = document.getElementById(id); if (!el) return;
+  if (!data.length) { el.innerHTML = '<div class="empty">Sem dados no período.</div>'; return; }
+  var max = 1;
+  for (var i=0; i<data.length; i++) if (data[i].value > max) max = data[i].value;
+  var html = '';
+  for (var k=0; k<data.length; k++) {
+    var d = data[k];
+    var pct = Math.round(d.value/max*100);
+    var color = colorFn ? colorFn(d) : 'accent';
+    var label = d.label.length > 18 ? d.label.slice(0,17)+'…' : d.label;
+    html += '<div class="barwrap"><div class="barlabel" title="'+escapeHtml(d.label)+'">'+escapeHtml(label)+'</div><div class="bartrack"><div class="barfill '+color+'" style="width:'+pct+'%"></div></div><div class="barval">'+d.value.toFixed(1).replace('.0','')+'</div></div>';
+  }
+  el.innerHTML = html;
+}
+function renderDonut(id, data) {
+  var el = document.getElementById(id); if (!el) return;
+  var total = 0;
+  for (var i=0; i<data.length; i++) total += data[i].value;
+  if (!total) { el.innerHTML = '<div class="empty">Sem dados no período.</div>'; return; }
+  var colors = ['#176b57','#2f7fb5','#d58c11','#c63e35','#8e6bbf','#5aa38a','#b06a3c','#4a7c8c'];
+  var acc = 0, stops = [];
+  for (var k=0; k<data.length; k++) {
+    var start = acc/total*360; acc += data[k].value; var end = acc/total*360;
+    stops.push(colors[k%colors.length]+' '+start+'deg '+end+'deg');
+  }
+  var legend = '';
+  for (var m=0; m<data.length; m++) {
+    legend += '<div class="legendrow"><span class="legdot" style="background:'+colors[m%colors.length]+'"></span><span>'+escapeHtml(data[m].label)+'</span><strong style="margin-left:auto">'+Math.round(data[m].value/total*100)+'%</strong></div>';
+  }
+  el.innerHTML = '<div class="donut" style="background:conic-gradient('+stops.join(', ')+')"><div class="donut-center"><strong>'+total.toFixed(1).replace('.0','')+'</strong><span>total</span></div></div><div class="legend">'+legend+'</div>';
+}
+function renderLineChart(id, data) {
+  var el = document.getElementById(id); if (!el) return;
+  if (!data.length) { el.innerHTML = '<div class="empty">Sem dados no período.</div>'; return; }
+  var w=600, h=160, pad=30, max=1;
+  for (var i=0; i<data.length; i++) if (data[i].value > max) max = data[i].value;
+  var stepX = (w-pad*2)/Math.max(data.length-1,1);
+  var pts = [];
+  for (var k=0; k<data.length; k++) {
+    var x = pad + k*stepX;
+    var y = h - pad - (data[k].value/max)*(h-pad*2);
+    pts.push({x:x, y:y, value:data[k].value, label:data[k].label});
+  }
+  var path = '';
+  for (var p=0; p<pts.length; p++) path += (p===0?'M':'L') + pts[p].x + ',' + pts[p].y + ' ';
+  var area = path + 'L' + pts[pts.length-1].x + ',' + (h-pad) + ' L' + pts[0].x + ',' + (h-pad) + ' Z';
+  var grid = '';
+  var fracs = [0,0.25,0.5,0.75,1];
+  for (var g=0; g<fracs.length; g++) {
+    var gy = h-pad-fracs[g]*(h-pad*2);
+    grid += '<line x1="'+pad+'" y1="'+gy+'" x2="'+(w-pad)+'" y2="'+gy+'" stroke="#eef2f5" stroke-width="1"/>';
+  }
+  var dots = '';
+  for (var d=0; d<pts.length; d++) dots += '<circle cx="'+pts[d].x+'" cy="'+pts[d].y+'" r="3.5" fill="#176b57"><title>'+pts[d].label+': '+pts[d].value+'</title></circle>';
+  var xLabels = '';
+  for (var xl=0; xl<pts.length; xl++) {
+    if (xl%2===0 || xl===pts.length-1) xLabels += '<text x="'+pts[xl].x+'" y="'+(h-6)+'" text-anchor="middle" font-size="9" fill="#8a97a3">'+pts[xl].label.slice(5)+'</text>';
+  }
+  el.innerHTML = '<svg viewBox="0 0 '+w+' '+h+'" preserveAspectRatio="none">'+grid+'<path d="'+area+'" fill="#176b57" opacity="0.08"/><path d="'+path+'" fill="none" stroke="#176b57" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>'+dots+xLabels+'</svg>';
+}
+
+// ==========================================
+// RENDER GERAL
+// ==========================================
+function render() {
+  if (!currentRole) return;
+
+  var destSel = $('#outputDestFilter');
+  if (destSel && destSel.options.length <= 1) {
+    for (var di=0; di<DESTINOS.length; di++) {
+      var o = document.createElement('option');
+      o.value = DESTINOS[di]; o.textContent = DESTINOS[di];
+      destSel.appendChild(o);
+    }
+  }
+
+  $('#metricProducts').textContent = products.length;
+  var lowCount = 0, expCount = 0, totalValue = 0;
+  for (var i=0; i<products.length; i++) {
+    if (products[i].qty <= products[i].min) lowCount++;
+    if (expiryDays(products[i].expiry) !== null && expiryDays(products[i].expiry) <= 7) expCount++;
+    totalValue += products[i].qty * products[i].cost;
+  }
+  $('#metricLow').textContent = lowCount;
+  $('#metricExpiry').textContent = expCount;
+  $('#metricValue').textContent = money(totalValue);
+
+  var q = ($('#dashSearch').value||'').toLowerCase();
+  var filtered = products.filter(function(p){ return (p.name+' '+p.sku+' '+p.category).toLowerCase().indexOf(q) >= 0; });
+  var dashHtml = '';
+  for (var d=0; d<Math.min(filtered.length,12); d++) {
+    var p = filtered[d];
+    dashHtml += '<tr><td><strong>'+escapeHtml(p.name)+'</strong><br><span class="hint">'+escapeHtml(p.sku)+'</span></td><td>'+escapeHtml(p.category)+'</td><td>'+p.qty+' '+escapeHtml(p.unit)+'</td><td>'+status(p)+'</td></tr>';
+  }
+  $('#dashRows').innerHTML = dashHtml || '<tr><td colspan="4" class="empty">Nenhum produto cadastrado.</td></tr>';
+
+  var alertItems = [];
+  for (var a=0; a<products.length; a++) {
+    if (products[a].qty <= products[a].min) alertItems.push({red:true,title:products[a].name,desc:'Saldo '+products[a].qty+' '+products[a].unit+' · mínimo '+products[a].min+' '+products[a].unit});
+  }
+  for (var b=0; b<products.length; b++) {
+    var ed = expiryDays(products[b].expiry);
+    if (ed !== null && ed <= 7) alertItems.push({red:ed<=2,title:products[b].name,desc:ed<0?'Produto vencido — conferir e segregar':'Validade: '+products[b].expiry});
+  }
+  var alertHtml = '';
+  for (var c=0; c<Math.min(alertItems.length,8); c++) {
+    alertHtml += '<div class="alert"><div class="dot '+(alertItems[c].red?'red':'')+'"></div><div><strong>'+escapeHtml(alertItems[c].title)+'</strong><small>'+escapeHtml(alertItems[c].desc)+'</small></div></div>';
+  }
+  $('#alerts').innerHTML = alertHtml || '<div class="empty">Nenhum alerta por enquanto.</div>';
+
+  var pq = ($('#productSearch').value||'').toLowerCase();
+  var cat = $('#categoryFilter').value;
+  var prodHtml = '';
+  for (var pr=0; pr<products.length; pr++) {
+    var pp = products[pr];
+    if ((pp.name+' '+pp.sku+' '+pp.supplier).toLowerCase().indexOf(pq) < 0) continue;
+    if (cat && pp.category !== cat) continue;
+    
+    var editBtn = can('edit_product') ? '<button class="secondary small" onclick="editarProduto('+pp.id+')">Editar</button> ' : '';
+    var movBtn = can('register_movement') ? '<button class="secondary small" onclick="abrirModalEntrada('+pp.id+')">Entrada</button> ' : '';
+    var outBtn = can('register_output') ? '<button class="secondary small" onclick="abrirModalSaida('+pp.id+')">Saída</button>' : '';
+    var acts = editBtn+movBtn+outBtn || '<span class="hint">Sem ações</span>';
+    
+    prodHtml += '<tr><td>'+escapeHtml(pp.sku)+'</td><td><strong>'+escapeHtml(pp.name)+'</strong><br><span class="hint">'+escapeHtml(pp.location||'')+'</span></td><td>'+escapeHtml(pp.category)+'</td><td>'+pp.qty+'</td><td>'+pp.min+'</td><td>'+escapeHtml(pp.unit)+'</td><td>'+money(pp.cost)+'</td><td>'+acts+'</td></tr>';
+  }
+  $('#productRows').innerHTML = prodHtml || '<tr><td colspan="8" class="empty">Nenhum resultado.</td></tr>';
+
+  var mq = ($('#movementSearch').value||'').toLowerCase();
+  var mt = $('#movementTypeFilter').value;
+  var movHtml = '';
+  var revMovs = movements.slice().reverse();
+  for (var mv=0; mv<revMovs.length; mv++) {
+    var m = revMovs[mv];
+    var isEntrada = m.type === 'Entrada';
+    var isAjustePos = m.type === 'Ajuste' && (m.delta === undefined || m.delta >= 0);
+    if (!isEntrada && !isAjustePos) continue;
+    if (mt && m.type !== mt) continue;
+    if ((m.productName+' '+m.person+' '+(m.note||'')).toLowerCase().indexOf(mq) < 0) continue;
+    var qtdStr = (m.type==='Entrada'?'+':'')+m.qty;
+    movHtml += '<tr><td>'+new Date(m.date).toLocaleString('pt-BR')+'</td><td>'+escapeHtml(m.productName)+'<br><span class="hint">'+escapeHtml(m.sku)+'</span></td><td>'+escapeHtml(m.type)+'</td><td>'+qtdStr+'</td><td>'+escapeHtml(m.unit||'—')+'</td><td>'+escapeHtml(m.person)+'</td><td>'+escapeHtml(m.note||'—')+'</td></tr>';
+  }
+  $('#movementRows').innerHTML = movHtml || '<tr><td colspan="7" class="empty">Nenhuma entrada registrada.</td></tr>';
+
+  var allOutputs = getOutputMovements();
+  var outToday = allOutputs.filter(function(m){ return m.date.slice(0,10) === today(); });
+  var out7 = filterByPeriod(allOutputs, '7');
+  var out30 = filterByPeriod(allOutputs, '30');
+  var sumToday = 0, sum7 = 0, sum30 = 0;
+  for (var ot1=0; ot1<outToday.length; ot1++) sumToday += outputQty(outToday[ot1]);
+  for (var ot2=0; ot2<out7.length; ot2++) sum7 += outputQty(out7[ot2]);
+  for (var ot3=0; ot3<out30.length; ot3++) sum30 += outputQty(out30[ot3]);
+  $('#outToday').textContent = sumToday.toFixed(1).replace('.0','');
+  $('#out7').textContent = sum7.toFixed(1).replace('.0','');
+  $('#out30').textContent = sum30.toFixed(1).replace('.0','');
+
+  var destTotals = {};
+  for (var dt=0; dt<out30.length; dt++) {
+    var m30 = out30[dt];
+    if (m30.destino) destTotals[m30.destino] = (destTotals[m30.destino]||0) + outputQty(m30);
+  }
+  var destArr = Object.keys(destTotals).map(function(k){ return {label:k, value:destTotals[k]}; });
+  destArr.sort(function(a,b){ return b.value - a.value; });
+  $('#outTopDest').textContent = destArr.length ? destArr[0].label : '—';
+
+  renderBarChart('outputsByDestChart', destArr, function(){ return 'accent'; });
+
+  var prodTotals = {};
+  for (var pt=0; pt<out30.length; pt++) {
+    var mp = out30[pt];
+    prodTotals[mp.productName] = (prodTotals[mp.productName]||0) + outputQty(mp);
+  }
+  var prodArr = Object.keys(prodTotals).map(function(k){ return {label:k, value:prodTotals[k]}; });
+  prodArr.sort(function(a,b){ return b.value - a.value; });
+  renderBarChart('topOutputProductsChart', prodArr.slice(0,5), function(){ return 'blue'; });
+
+  var daily = [];
+  for (var dy=13; dy>=0; dy--) {
+    var dd = daysAgo(dy);
+    var tot = 0;
+    for (var oo=0; oo<allOutputs.length; oo++) {
+      if (allOutputs[oo].date.slice(0,10) === dd) tot += outputQty(allOutputs[oo]);
+    }
+    daily.push({label:dd, value:tot});
+  }
+  renderLineChart('dailyOutputChart', daily);
+  renderDonut('donutOutputs', destArr);
+
+  var oq = ($('#outputSearch').value||'').toLowerCase();
+  var od = $('#outputDestFilter').value;
+  var ot = $('#outputTypeFilter').value;
+  var op = $('#outputPeriodFilter').value;
+  var filteredOut = filterByPeriod(allOutputs, op);
+  filteredOut = filteredOut.filter(function(m){
+    if (od && m.destino !== od) return false;
+    if (ot && m.type !== ot) return false;
+    if ((m.productName+' '+m.person+' '+(m.note||'')+' '+(m.destino||'')).toLowerCase().indexOf(oq) < 0) return false;
+    return true;
+  });
+  var outHtml = '';
+  var revOut = filteredOut.slice().reverse();
+  for (var ro=0; ro<revOut.length; ro++) {
+    var mo = revOut[ro];
+    var saldo = mo.saldoAfter !== undefined ? mo.saldoAfter + ' ' + escapeHtml(mo.unit) : '—';
+    outHtml += '<tr><td>'+new Date(mo.date).toLocaleString('pt-BR')+'</td><td>'+escapeHtml(mo.productName)+'<br><span class="hint">'+escapeHtml(mo.sku)+'</span></td><td><span class="pill '+(mo.type==='Perda'?'bad':'warn')+'">'+escapeHtml(mo.type)+'</span></td><td><strong>−'+outputQty(mo).toFixed(1).replace('.0','')+'</strong></td><td>'+escapeHtml(mo.unit||'—')+'</td><td>'+(mo.destino?'<span class="dest-tag">'+escapeHtml(mo.destino)+'</span>':'—')+'</td><td>'+escapeHtml(mo.person)+'</td><td>'+escapeHtml(mo.note||'—')+'</td><td>'+saldo+'</td></tr>';
+  }
+  $('#outputRows').innerHTML = outHtml || '<tr><td colspan="9" class="empty">Nenhuma saída registrada no período.</td></tr>';
+}
+
+// ==========================================
+// PERMISSÕES
+// ==========================================
+function renderPermissions() {
+  if (!pendingPerms) pendingPerms = JSON.parse(JSON.stringify(permissions));
+  var content = $('#permissionsContent');
+  var role = currentPermTab;
+  if (role === 'manager' && currentRole !== 'manager') {
+    content.innerHTML = '<div class="empty">Apenas a Gerência pode alterar as permissões da Gerência.</div>';
+    return;
+  }
+  var perms = pendingPerms[role] || {};
+  var html = '<div class="perm-group"><h3>'+ROLE_LABELS[role]+' <span class="pill '+(role==='manager'?'warn':'info')+'">'+(role==='manager'?'acesso total por padrão':'configurável')+'</span></h3><div class="list">';
+  for (var i=0; i<PERM_META.length; i++) {
+    var pm = PERM_META[i];
+    html += '<div class="perm-row"><div><div class="perm-label">'+pm.label+'</div><div class="perm-desc">'+pm.desc+'</div></div><label class="switch"><input type="checkbox" data-perm="'+pm.key+'" '+(perms[pm.key]?'checked':'')+' onchange="alterarPermissao(\''+role+'\', \''+pm.key+'\', this.checked)"><span class="slider"></span></label></div>';
+  }
+  html += '</div></div>';
+  content.innerHTML = html;
+}
+
+function alterarPermissao(role, key, val) {
+  if (!pendingPerms[role]) pendingPerms[role] = {};
+  pendingPerms[role][key] = val;
+}
+
+function mudarAbaPermissao(role, btn) {
+  document.querySelectorAll('[data-roletab]').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  currentPermTab = role;
+  pendingPerms = JSON.parse(JSON.stringify(permissions));
+  renderPermissions();
+}
+
+function salvarPermissoes() {
+  if (currentRole !== 'manager') { alert('Apenas a Gerência pode salvar permissões.'); return; }
+  if (!pendingPerms) return;
+  permissions = JSON.parse(JSON.stringify(pendingPerms));
+  persist(); applyPermissions(); render();
+  alert('Permissões salvas com sucesso!');
+}
+
+// ==========================================
+// MODAL
+// ==========================================
+function field(name, label, type, opts) {
+  type = type || 'text'; opts = opts || {};
+  return {name:name, label:label, type:type, required:opts.required, options:opts.options, value:opts.value, min:opts.min, step:opts.step, span:opts.span, placeholder:opts.placeholder};
+}
+
+function openModal(title, fields, values, onSave) {
+  values = values || {};
+  $('#modalTitle').textContent = title;
+  var html = '';
+  for (var i=0; i<fields.length; i++) {
+    var f = fields[i];
+    var val = values[f.name] !== undefined ? values[f.name] : (f.value !== undefined ? f.value : '');
+    html += '<div class="field '+(f.span?'span2':'')+'"><label for="f_'+f.name+'">'+f.label+'</label>';
+    if (f.type === 'select') {
+      html += '<select id="f_'+f.name+'" name="'+f.name+'" '+(f.required?'required':'')+'>';
+      for (var o=0; o<f.options.length; o++) {
+        var opt = f.options[o];
+        html += '<option '+(String(val)===String(opt.value)?'selected':'')+' value="'+escapeHtml(opt.value)+'">'+escapeHtml(opt.label)+'</option>';
+      }
+      html += '</select>';
+    } else {
+      html += '<input id="f_'+f.name+'" name="'+f.name+'" type="'+f.type+'" value="'+escapeHtml(val)+'" '+(f.required?'required':'')+(f.min!==undefined?' min="'+f.min+'"':'')+(f.step?' step="'+f.step+'"':'')+' placeholder="'+escapeHtml(f.placeholder||'')+'">';
+    }
+    html += '</div>';
+  }
+  $('#modalFields').innerHTML = html;
+  $('#modalback').classList.add('show');
+  currentModalSaveCallback = onSave;
+}
+
+function fecharModal() {
+  $('#modalback').classList.remove('show');
+}
+
+function salvarModal(e) {
+  e.preventDefault();
+  if (!currentModalSaveCallback) return;
+  var form = e.target;
+  var data = {};
+  var inputs = form.querySelectorAll('input,select');
+  for (var j=0; j<inputs.length; j++) data[inputs[j].name] = inputs[j].value;
+  
+  currentModalSaveCallback(data);
+  
+  fecharModal();
+  render();
+}
+
+var categories = ['Secos','Proteínas','Hortifruti','Laticínios','Congelados','Bebidas','Limpeza','Descartáveis','Outros'];
+function getProductFields() {
+  return [
+    field('sku','Código / SKU','text',{required:true}),
+    field('name','Nome do produto','text',{required:true}),
+    field('category','Categoria','select',{required:true,options:categories.map(function(x){return {value:x,label:x};})}),
+    field('unit','Unidade de controle','select',{required:true,options:UNIDADES.map(function(x){return {value:x,label:x};})}),
+    field('qty','Saldo atual','number',{required:true,min:0,step:'0.001'}),
+    field('min','Estoque mínimo','number',{required:true,min:0,step:'0.001'}),
+    field('cost','Custo por unidade (R$)','number',{required:true,min:0,step:'0.01'}),
+    field('expiry','Validade do lote (se aplicável)','date'),
+    field('supplier','Fornecedor','text'),
+    field('location','Local de armazenamento','text')
+  ];
+}
+
+// ==========================================
+// AÇÕES DE PRODUTOS
+// ==========================================
+function abrirModalProduto() {
+  if (!can('create_product')) { alert('Sem permissão.'); return; }
+  openModal('Cadastrar produto', getProductFields(), {qty:0,min:0,cost:0}, function(d){
+    for (var i=0; i<products.length; i++) {
+      if (products[i].sku.toLowerCase() === d.sku.toLowerCase()) { alert('Já existe um produto com esse código/SKU.'); return; }
+    }
+    products.push({id:Date.now(), sku:d.sku, name:d.name, category:d.category, unit:d.unit, qty:Number(d.qty), min:Number(d.min), cost:Number(d.cost), expiry:d.expiry, supplier:d.supplier, location:d.location});
+    persist();
+  });
+}
+
+function editarProduto(id) {
+  if (!can('edit_product')) { alert('Sem permissão.'); return; }
+  var p = null;
+  for (var i=0; i<products.length; i++) if (products[i].id === id) { p = products[i]; break; }
+  if (!p) return;
+  openModal('Editar produto', getProductFields(), p, function(d){
+    for (var j=0; j<products.length; j++) {
+      if (products[j].id !== id && products[j].sku.toLowerCase() === d.sku.toLowerCase()) { alert('Já existe um produto com esse código/SKU.'); return; }
+    }
+    for (var k=0; k<products.length; k++) {
+      if (products[k].id === id) {
+        products[k].sku = d.sku; products[k].name = d.name; products[k].category = d.category;
+        products[k].unit = d.unit; products[k].qty = Number(d.qty); products[k].min = Number(d.min);
+        products[k].cost = Number(d.cost); products[k].expiry = d.expiry;
+        products[k].supplier = d.supplier; products[k].location = d.location;
+        break;
+      }
+    }
+    persist();
+  });
+}
+
+// ==========================================
+// AÇÕES DE ENTRADA E SAÍDA
+// ==========================================
+function abrirModalEntrada(preId) {
+  if (!can('register_movement')) { alert('Sem permissão.'); return; }
+  if (!products.length) { alert('Cadastre um produto primeiro.'); return; }
+  var opts = products.map(function(x){ return {value:x.id, label:x.sku+' — '+x.name+' (saldo: '+x.qty+' '+x.unit+')'}; });
+  openModal('Registrar entrada de estoque', [
+    field('productId','Produto','select',{required:true,options:opts,value:preId||products[0].id}),
+    field('type','Tipo','select',{required:true,options:[{value:'Entrada',label:'Entrada'},{value:'Ajuste',label:'Ajuste (corrigir saldo)'}]}),
+    field('qty','Quantidade','number',{required:true,min:0.001,step:'0.001'}),
+    field('unit','Unidade de medida','select',{required:true,options:UNIDADES.map(function(x){return {value:x,label:x};})}),
+    field('person','Responsável','text',{required:true,placeholder:'Nome de quem registrou'}),
+    field('note','Fornecedor / nota fiscal / motivo','text',{span:true,placeholder:'Ex.: NF 1234, fornecedor XYZ...'})
+  ], {productId:preId||products[0].id, person:'', unit:'kg', type:'Entrada'}, function(d){
+    var prod = null;
+    for (var i=0; i<products.length; i++) if (products[i].id === Number(d.productId)) { prod = products[i]; break; }
+    if (!prod) return;
+    var n = Number(d.qty);
+    if (d.type === 'Ajuste') {
+      if (n < 0) { alert('O saldo do ajuste não pode ser negativo.'); return; }
+      var delta = n - prod.qty;
+      prod.qty = n;
+      movements.push({id:Date.now(), date:new Date().toISOString(), productId:prod.id, productName:prod.name, sku:prod.sku, unit:d.unit, type:d.type, qty:n, delta:delta, person:d.person, note:d.note||'', destino:'', saldoAfter:prod.qty});
+    } else {
+      prod.qty += n;
+      movements.push({id:Date.now(), date:new Date().toISOString(), productId:prod.id, productName:prod.name, sku:prod.sku, unit:d.unit, type:d.type, qty:n, person:d.person, note:d.note||'', destino:'', saldoAfter:prod.qty});
+    }
+    persist();
+  });
+}
+
+function abrirModalSaida(preId) {
+  if (!can('register_output')) { alert('Sem permissão.'); return; }
+  if (!products.length) { alert('Cadastre um produto primeiro.'); return; }
+  var opts = products.map(function(x){ return {value:x.id, label:x.sku+' — '+x.name+' (saldo: '+x.qty+' '+x.unit+')'}; });
+  openModal('Registrar saída de estoque', [
+    field('productId','Produto','select',{required:true,options:opts,value:preId||products[0].id}),
+    field('destino','Destino / setor','select',{required:true,options:DESTINOS.map(function(x){return {value:x,label:x};})}),
+    field('type','Tipo de saída','select',{required:true,options:[{value:'Saída / consumo',label:'Saída / consumo'},{value:'Perda',label:'Perda'}]}),
+    field('qty','Quantidade que está saindo','number',{required:true,min:0.001,step:'0.001'}),
+    field('unit','Unidade de medida','select',{required:true,options:UNIDADES.map(function(x){return {value:x,label:x};})}),
+    field('person','Responsável','text',{required:true,placeholder:'Nome de quem registrou'}),
+    field('note','Motivo / requisição / observação','text',{span:true,placeholder:'Ex.: requisição da cozinha, produto vencido...'})
+  ], {productId:preId||products[0].id, person:'', unit:'kg', type:'Saída / consumo', destino:DESTINOS[0]}, function(d){
+    var prod = null;
+    for (var i=0; i<products.length; i++) if (products[i].id === Number(d.productId)) { prod = products[i]; break; }
+    if (!prod) return;
+    var n = Number(d.qty);
+    if (n > prod.qty) { alert('Saldo insuficiente. Disponível: '+prod.qty+' '+prod.unit+'.'); return; }
+    prod.qty -= n;
+    movements.push({id:Date.now(), date:new Date().toISOString(), productId:prod.id, productName:prod.name, sku:prod.sku, unit:d.unit, type:d.type, qty:n, person:d.person, note:d.note||'', destino:d.destino, saldoAfter:prod.qty});
+    persist();
+  });
+}
+
+// ==========================================
+// LOGIN
+// ==========================================
+function setLoginRole(role, btn) {
+  currentLoginRole = role;
+  document.querySelectorAll('.logintabs button').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+}
+
+function fazerLogin(e) {
+  e.preventDefault();
+  var userVal = $('#loginUser').value.trim() || 'Usuário';
+  currentUser = userVal;
+  currentRole = currentLoginRole;
+  $('#loginscreen').classList.add('hidden');
+  $('#app').style.display = '';
+  $('#userName').textContent = currentUser;
+  $('#userRole').textContent = 'Perfil: '+ROLE_LABELS[currentRole];
+  $('#userAvatar').textContent = currentUser.charAt(0).toUpperCase();
+  
+  var notices = {
+    manager:'Você está logado como Gerência. Tem controle total e pode ajustar as permissões dos outros perfis.',
+    stock:'Você está logado como Estoque. Pode cadastrar/editar produtos e registrar entradas, conforme liberado pela Gerência.',
+    staff:'Você está logado como Funcionário. Pode registrar saídas e consultar o estoque, conforme liberado pela Gerência.'
+  };
+  $('#roleNotice').textContent = notices[currentRole];
+  
+  pendingPerms = JSON.parse(JSON.stringify(permissions));
+  applyPermissions();
+  go('dashboard');
+}
+
+function fazerLogout() {
+  currentUser = null; currentRole = null;
+  $('#app').style.display = 'none';
+  $('#loginscreen').classList.remove('hidden');
+  $('#loginUser').value = ''; $('#loginPass').value = '';
+}
+
+// ==========================================
+// EXPORTAÇÃO
+// ==========================================
+function exportCSV(filename, rows) {
+  var csv = rows.map(function(row){ return row.map(function(v){ return '"'+String(v==null?'':v).replace(/"/g,'""')+'"'; }).join(';'); }).join('\r\n');
+  var blob = new Blob(['\ufeff'+csv], {type:'text/csv;charset=utf-8;'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = filename; a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function exportarProdutos() {
+  exportCSV('estoque-produtos.csv', [['SKU','Produto','Categoria','Saldo','Mínimo','Unidade','Custo unitário','Validade','Fornecedor','Local']].concat(products.map(function(p){ return [p.sku,p.name,p.category,p.qty,p.min,p.unit,p.cost,p.expiry,p.supplier,p.location]; })));
+}
+
+function exportarEntradas() {
+  var entradas = movements.filter(function(m){ return m.type==='Entrada' || (m.type==='Ajuste' && (m.delta===undefined || m.delta>=0)); });
+  exportCSV('estoque-entradas.csv', [['Data','SKU','Produto','Tipo','Quantidade','Unidade','Responsável','Motivo','Saldo após']].concat(entradas.map(function(m){ return [m.date,m.sku,m.productName,m.type,m.qty,m.unit,m.person,m.note,m.saldoAfter]; })));
+}
+
+function exportarSaidas() {
+  var outs = getOutputMovements();
+  exportCSV('estoque-saidas.csv', [['Data','SKU','Produto','Tipo','Quantidade','Unidade','Destino','Responsável','Motivo','Saldo após']].concat(outs.map(function(m){ return [m.date,m.sku,m.productName,m.type,outputQty(m),m.unit,m.destino||'',m.person,m.note,m.saldoAfter]; })));
+}
+
+function exportarBackup() {
+  var blob = new Blob([JSON.stringify({products:products, movements:movements, permissions:permissions, exportedAt:new Date().toISOString()}, null, 2)], {type:'application/json'});
+  var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'backup-estoque.json'; a.click(); URL.revokeObjectURL(a.href);
+}
+
+// ==========================================
+// INICIALIZAÇÃO DE FILTROS
+// ==========================================
+var filterIds = ['dashSearch','productSearch','categoryFilter','movementSearch','movementTypeFilter','outputSearch','outputDestFilter','outputTypeFilter','outputPeriodFilter'];
+for (var fi=0; fi<filterIds.length; fi++) {
+  var el = document.getElementById(filterIds[fi]);
+  if (el) { el.addEventListener('input', render); el.addEventListener('change', render); }
+}
+
+persist();
+</script>
+</body></html>
