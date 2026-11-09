@@ -3,6 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#176b57">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Estoque Pro">
 <title>Estoque Pro | Restaurante</title>
 <style>
 :root{--bg:#f4f6f8;--panel:#fff;--ink:#17212b;--muted:#687582;--line:#e4e9ee;--accent:#176b57;--warn:#fff3d7;--danger:#fde8e7;--shadow:0 5px 20px #17212b0b}
@@ -780,4 +784,13 @@ for (var fi=0; fi<filterIds.length; fi++) {
 
 persist();
 </script>
+  <script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js")
+      .then(() => console.log("Estoque Pro pronto!"))
+      .catch(error => console.error("Erro:", error));
+  });
+}
+  </script>
 </body></html>
