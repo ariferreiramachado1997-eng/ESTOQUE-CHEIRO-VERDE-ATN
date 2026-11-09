@@ -781,7 +781,8 @@ async function fazerLogin(e) {
 
     currentUser = email;
     currentRole = consulta.data.role;
-
+    
+await carregarDadosNuvem();
     $('#loginscreen').classList.add('hidden');
     $('#app').style.display = '';
 
