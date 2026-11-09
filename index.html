@@ -21,15 +21,7 @@
 <body>
 
 <!-- LOGIN -->
-<div class="loginscreen" id="loginscreen">
-  <div class="loginbox">
-    <div class="loginbrand">Estoque Pro <span>GESTÃO DE ESTOQUE · RESTAURANTE</span></div>
-    <h2>Acesse sua conta</h2>
-    <div class="logintabs" role="tablist">
-      <button class="active" onclick="setLoginRole('manager', this)" type="button">Gerência</button>
-      <button onclick="setLoginRole('stock', this)" type="button">Estoque</button>
-      <button onclick="setLoginRole('staff', this)" type="button">Funcionário</button>
-    </div>
+<div class="field"><label for="loginUser">E-mail</label><input id="loginUser" name="user" type="email" required placeholder="Digite seu e-mail"></div>
     <form id="loginForm" onsubmit="fazerLogin(event)">
       <div class="formgrid" style="grid-template-columns:1fr">
         <div class="field"><label for="loginUser">Usuário</label><input id="loginUser" name="user" type="text" required placeholder="Digite seu nome de usuário"></div>
@@ -37,8 +29,7 @@
       </div>
       <div style="margin-top:16px"><button type="submit" style="width:100%">Entrar</button></div>
     </form>
-    <div class="loginfoot"><strong>Demonstração:</strong> qualquer usuário e senha funcionam.<br>O perfil selecionado acima define o que você pode acessar.</div>
-  </div>
+    <div class="loginfoot">Entre com seu e-mail e senha cadastrados no sistema.</div>
 </div>
 
 <!-- APP -->
