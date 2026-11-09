@@ -219,7 +219,16 @@ var currentModalSaveCallback = null;
 var currentLoginRole = 'manager';
 
 function persist() {
-  async function carregarDadosNuvem() {
+  try {
+    localStorage.setItem('estoque_products_v1', JSON.stringify(products));
+    localStorage.setItem('estoque_moves_v1', JSON.stringify(movements));
+    localStorage.setItem('estoque_perms_v1', JSON.stringify(permissions));
+  } catch(e) {
+    console.warn('Erro ao salvar:', e);
+  }
+}
+
+async function carregarDadosNuvem() {
   var p = await supabaseClient
     .from('products')
     .select('*')
@@ -253,6 +262,24 @@ function persist() {
 
   movements = (m.data || []).map(function(x) {
     return {
+      id: x.id,
+      date: x.created_at,
+      productId: x.product_id,
+      productName: x.product_name,
+      sku: x.sku || '',
+      unit: x.unit || '',
+      type: x.type,
+      qty: Number(x.qty || 0),
+      delta: Number(x.delta || 0),
+      person: x.person || '',
+      note: x.note || '',
+      destino: x.destination || '',
+      saldoAfter: Number(x.saldo_after || 0)
+    };
+  });
+
+  persist();
+}
       id: x.id,
       date: x.created_at,
       productId: x.product_id,
