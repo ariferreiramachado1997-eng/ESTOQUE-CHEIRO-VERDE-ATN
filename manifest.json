@@ -1,7 +1,7 @@
 {
-  "name": "Estoque Pro - Restaurante",
+  "name": "Estoque Pro - Cheiro Verde",
   "short_name": "Estoque Pro",
-  "description": "Sistema de controle de estoque para restaurantes",
+  "description": "Controle de estoque do restaurante Cheiro Verde",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -10,14 +10,10 @@
   "theme_color": "#176b57",
   "icons": [
     {
-      "src": "./icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "./icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
     }
   ]
 }
