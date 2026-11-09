@@ -290,13 +290,6 @@ async function carregarDadosNuvem() {
       qty: Number(x.qty || 0),
       delta: Number(x.delta || 0),
       person: x.person || '',
-      note: x.note || '',
-      destino: x.destination || '',
-      saldoAfter: Number(x.saldo_after || 0)
-    };
-  });
-
-  persist();
 function persist() {
   try {
     localStorage.setItem('estoque_products_v1', JSON.stringify(products));
