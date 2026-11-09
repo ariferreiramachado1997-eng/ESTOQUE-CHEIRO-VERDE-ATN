@@ -229,39 +229,31 @@ function persist() {
 }
 
 async function carregarDadosNuvem() {
-  var p = await supabaseClient
-    .from('products')
-    .select('*')
-    .eq('restaurant_id', RESTAURANT_ID);
-
+  var p = await supabaseClient.from('products').select('*').eq('restaurant_id', RESTAURANT_ID);
   if (p.error) throw p.error;
 
-  var m = await supabaseClient
-    .from('movements')
-    .select('*')
-    .eq('restaurant_id', RESTAURANT_ID)
-    .order('created_at', {ascending:true});
-
+  var m = await supabaseClient.from('movements').select('*').eq('restaurant_id', RESTAURANT_ID).order('created_at', {ascending:true});
   if (m.error) throw m.error;
 
   products = (p.data || []).map(function(x) {
     return {
-      id: x.id,
-      sku: x.sku || '',
-      name: x.name,
-      category: x.category || 'Outros',
-      qty: Number(x.qty || 0),
-      min: Number(x.min || 0),
-      unit: x.unit || 'un',
-      cost: Number(x.cost || 0),
-      expiry: x.expiry || '',
-      supplier: x.supplier || '',
-      location: x.location || ''
+      id:x.id, sku:x.sku||'', name:x.name, category:x.category||'Outros',
+      qty:Number(x.qty||0), min:Number(x.min||0), unit:x.unit||'un',
+      cost:Number(x.cost||0), expiry:x.expiry||'', supplier:x.supplier||'', location:x.location||''
     };
   });
 
   movements = (m.data || []).map(function(x) {
     return {
+      id:x.id, date:x.created_at, productId:x.product_id, productName:x.product_name,
+      sku:x.sku||'', unit:x.unit||'', type:x.type, qty:Number(x.qty||0),
+      delta:Number(x.delta||0), person:x.person||'', note:x.note||'',
+      destino:x.destination||'', saldoAfter:Number(x.saldo_after||0)
+    };
+  });
+
+  persist();
+}
 function expiryDays(d) {
   if (!d) return null;
   return Math.ceil((new Date(d+'T00:00:00') - new Date(today()+'T00:00:00')) / 86400000);
