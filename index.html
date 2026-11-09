@@ -46,7 +46,7 @@
     <button onclick="go('dashboard')" data-page="dashboard">▦ Visão geral</button>
     <button onclick="go('products')" data-page="products">▤ Produtos</button>
     <button onclick="go('movement')" data-page="movement">▤ Entradas</button>
-    <button onclick="go('outputs')" data-page="outputs">↗ Saídas</button>
+    <button onclick="go('outputs')" data-page="outputs">↗️ Saídas</button>
     <button onclick="go('reports')" data-page="reports">▥ Relatórios</button>
     <button onclick="go('permissions')" data-page="permissions" id="navPermissions">⚙ Permissões</button>
   </nav>
@@ -174,6 +174,13 @@ var supabaseClient = window.supabase.createClient(
 );
 
 var RESTAURANT_ID = '11111111-1111-4111-8111-111111111111';
+
+// ==========================================
+// E-MAILS AUTORIZADOS A ENTRAR (ÚNICO)
+// ==========================================
+var EMAILS_AUTORIZADOS = [
+  "ariferreira.machado1997@gmail.com"
+];
   
 var products, movements, permissions;
 try { products = JSON.parse(localStorage.getItem('estoque_products_v1')); } catch(e) { products = null; }
@@ -739,7 +746,7 @@ function abrirModalSaida(preId) {
 }
 
 // ==========================================
-// LOGIN
+// LOGIN — SOMENTE E-MAIL AUTORIZADO
 // ==========================================
 function setLoginRole(role, btn) {
   currentLoginRole = role;
@@ -750,8 +757,14 @@ function setLoginRole(role, btn) {
 async function fazerLogin(e) {
   e.preventDefault();
 
-  var email = $('#loginUser').value.trim();
+  var email = $('#loginUser').value.trim().toLowerCase();
   var senha = $('#loginPass').value;
+
+  // 1ª trava: bloqueia ANTES de tentar logar
+  if (EMAILS_AUTORIZADOS.indexOf(email) === -1) {
+    alert('Acesso negado. Este e-mail não está autorizado a entrar.');
+    return;
+  }
 
   try {
     var resultado = await supabaseClient.auth.signInWithPassword({
@@ -765,6 +778,14 @@ async function fazerLogin(e) {
     }
 
     var usuario = resultado.data.user;
+
+    // 2ª trava: confirma no objeto do usuário retornado pelo Supabase
+    var emailConfirmado = (usuario.email || '').toLowerCase();
+    if (EMAILS_AUTORIZADOS.indexOf(emailConfirmado) === -1) {
+      await supabaseClient.auth.signOut();
+      alert('Acesso negado.');
+      return;
+    }
 
     var consulta = await supabaseClient
       .from('restaurant_members')
@@ -781,8 +802,8 @@ async function fazerLogin(e) {
 
     currentUser = email;
     currentRole = consulta.data.role;
-    
-await carregarDadosNuvem();
+
+    await carregarDadosNuvem();
     $('#loginscreen').classList.add('hidden');
     $('#app').style.display = '';
 
@@ -795,7 +816,6 @@ await carregarDadosNuvem();
       stock: 'Você está logado como Estoque.',
       staff: 'Você está logado como Funcionário.'
     };
-
     $('#roleNotice').textContent = notices[currentRole] || '';
 
     pendingPerms = JSON.parse(JSON.stringify(permissions));
@@ -808,6 +828,7 @@ await carregarDadosNuvem();
 }
 
 function fazerLogout() {
+  try { supabaseClient.auth.signOut(); } catch(e) {}
   currentUser = null; currentRole = null;
   $('#app').style.display = 'none';
   $('#loginscreen').classList.remove('hidden');
